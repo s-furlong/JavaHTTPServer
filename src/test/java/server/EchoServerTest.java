@@ -5,6 +5,7 @@ import mocks.MockInputOutWrapper;
 import mocks.MockSocketWrapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +26,11 @@ class EchoServerTests {
         mockInputOutputWrapper.setReceivedMessage("off");
 
     }
+
     @Test
     public void testRunAcceptsClient() throws IOException {
 
-        EchoServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
+        HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
 
         assertEquals(1, mockSocketWrapper.getNumberOfCallsToAcceptClient());
     }
@@ -36,7 +38,7 @@ class EchoServerTests {
     @Test
     public void testRunCreatesInputStream() throws IOException {
 
-        EchoServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
+        HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
 
         assertEquals(1, mockInputOutputWrapper.getNumberOfCallsToCreateInputStream());
     }
@@ -44,7 +46,7 @@ class EchoServerTests {
     @Test
     public void testRunCreatesOutputStream() throws IOException {
 
-        EchoServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
+        HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
 
         assertEquals(1, mockInputOutputWrapper.getNumberOfCallsToCreateOutStream());
     }
@@ -52,7 +54,7 @@ class EchoServerTests {
     @Test
     public void testRunReceivesMessages() throws IOException {
 
-        EchoServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
+        HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
         String s = "hello";
 
         assertEquals("hello", mockInputOutputWrapper.setReceivedMessage(s));
@@ -61,7 +63,7 @@ class EchoServerTests {
     @Test
     public void testRunCallsReceivedMessage() throws IOException {
 
-        EchoServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
+        HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
 
         assertEquals(2, mockInputOutputWrapper.getNumberOfCallsReceiveMessages());
     }
@@ -69,7 +71,7 @@ class EchoServerTests {
     @Test
     public void testRunCallsEchoMessages() throws IOException {
 
-        EchoServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
+        HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
         ArrayList<String> s = new ArrayList<>(List.of("hello"));
 
         assertEquals(s, mockInputOutputWrapper.getEchoedMessages());
@@ -78,14 +80,15 @@ class EchoServerTests {
     @Test
     public void testRunCallsCloseConnection() throws IOException {
 
-        EchoServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
+        HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
 
         assertEquals(1, mockInputOutputWrapper.getNumberOfCallsToCloseConnection());
     }
+
     @Test
     public void testRunCallsCloseClientConnection() throws IOException {
 
-        EchoServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
+        HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
 
         assertEquals(1, mockSocketWrapper.getNumberOfCallsToCloseClientConnection());
     }

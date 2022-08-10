@@ -1,9 +1,9 @@
 plugins {
     id 'application'
 }
-apply plugin : "java"
+apply plugin: "java"
 ext {
-    javaMainClass = "server.EchoServer"
+    javaMainClass = "server.HttpServer"
 }
 
 application {
