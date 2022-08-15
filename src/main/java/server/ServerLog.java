@@ -13,24 +13,35 @@ public class ServerLog {
         completeServerLog.add(message);
     }
 
-    public void logEstablishServer(int clientPort){
+    public void logEstablishServer(int clientPort) {
         String establishServer = "ESTABLISHED ON LOCALHOST: " + clientPort;
         System.err.println(establishServer);
         addToLog(establishServer);
     }
-    public void logAcceptClient(){
+
+    public void logAcceptClient() {
         String acceptClient = "ACCEPTED CONNECTION";
         System.err.println(acceptClient);
         addToLog(acceptClient);
     }
 
-    public void logMessageFromClient(){
+    public void logMessage(String message) {
+        System.err.println("SERVER: " + message);
+        addToLog(message);
+    }
+
+    public void logResponse(String response) {
+        System.err.println("SERVER: " + response);
+        addToLog(response);
+    }
+
+    public void logMessageFromClient() {
         String clientMessage = "CLIENT SENT MESSAGE";
         System.err.println(clientMessage);
         addToLog(clientMessage);
     }
 
-    public void logCloseConnection(){
+    public void logCloseConnection() {
         String closeConnection = "CLIENT CONNECTION CLOSED";
         System.err.println(closeConnection);
         addToLog(closeConnection);

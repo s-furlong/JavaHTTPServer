@@ -23,6 +23,7 @@ public class HttpServer {
         while (true) {
             run(inputOutputWrappers, socketWrappers, serverLog);
         }
+
     }
 
     static void run(InputOutputInterfaces inputOutputWrappers, SocketInterfaces socketWrappers, ServerLog serverLog) throws IOException {
@@ -30,17 +31,16 @@ public class HttpServer {
         serverLog.logAcceptClient();
 
         inputOutputWrappers.createInputStream(clientSocket);
-        inputOutputWrappers.createOutputStream(clientSocket);
+        inputOutputWrappers.createOutputStreamWriter(clientSocket);
 
-        String s;
-        while ((s = inputOutputWrappers.receivedMessage()) != null) {
-            if (s.equalsIgnoreCase("off")) {
-                serverLog.logCloseConnection();
-                break;
-            }
-            serverLog.logMessageFromClient();
-            inputOutputWrappers.echoedMessage(s);
-        }
+
+        String request;
+        request = inputOutputWrappers.receivedMessage();
+        serverLog.logMessage(request);
+
+        String response = inputOutputWrappers.httpResponse(request);
+        serverLog.logResponse(response);
+
 
         inputOutputWrappers.closeInputOutputStreams();
         socketWrappers.closeClientConnection(clientSocket);

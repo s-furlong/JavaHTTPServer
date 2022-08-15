@@ -1,6 +1,8 @@
 package mocks;
 
 import Interfaces.InputOutputInterfaces;
+
+import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -19,19 +21,24 @@ public class MockInputOutWrapper implements InputOutputInterfaces {
     }
 
     @Override
-    public void createOutputStream(Socket clientSocket) {
+    public void createOutputStreamWriter(Socket clientSocket) {
         getNumberOfCallsToCreateOutStream++;
     }
 
     @Override
     public String receivedMessage() {
-        var message =receivedMessages.remove(0);
+        var message = receivedMessages.remove(0);
         return message;
     }
 
     @Override
     public void echoedMessage(String s) {
         echoedMessages.add(s);
+    }
+
+    @Override
+    public String httpResponse(String s) throws IOException {
+        return null;
     }
 
     @Override
