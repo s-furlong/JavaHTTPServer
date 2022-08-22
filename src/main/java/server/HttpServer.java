@@ -2,6 +2,9 @@ package server;
 
 import Interfaces.InputOutputInterfaces;
 import Interfaces.SocketInterfaces;
+import Router.Router;
+import request.Request;
+import response.Response;
 import wrappers.InputOutputWrappers;
 import wrappers.SocketWrappers;
 
@@ -11,7 +14,7 @@ import java.util.ArrayList;
 public class HttpServer {
 
     public static void main(String[] args) throws IOException {
-        int clientPort = (args.length > 0) ? Integer.parseInt(args[0]) : 4444;
+        int clientPort = (args.length > 0) ? Integer.parseInt(args[0]) : 5000;
         ArrayList<String> log = new ArrayList<>();
         var socketWrappers = new SocketWrappers();
         var inputOutputWrappers = new InputOutputWrappers();
@@ -34,12 +37,20 @@ public class HttpServer {
         inputOutputWrappers.createOutputStreamWriter(clientSocket);
 
 
-        String request;
-        request = inputOutputWrappers.receivedMessage();
-        serverLog.logMessage(request);
+        Request request;
+        String rawRequest;
 
-        String response = inputOutputWrappers.httpResponse(request);
-        serverLog.logResponse(response);
+        rawRequest = inputOutputWrappers.receivedMessage();
+        serverLog.logMessage(rawRequest);
+
+        request = new Request(rawRequest);
+        request.parse();
+
+
+        var response = Router.handle(request);
+
+        String rawResponse = inputOutputWrappers.httpResponse(response.toString());
+        serverLog.logResponse(rawResponse);
 
 
         inputOutputWrappers.closeInputOutputStreams();

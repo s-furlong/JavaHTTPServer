@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static server.ServerLog.completeServerLog;
 
 
-class EchoServerTests {
+class HttpServerTests {
     MockInputOutWrapper mockInputOutputWrapper = new MockInputOutWrapper();
     MockSocketWrapper mockSocketWrapper = new MockSocketWrapper();
     ServerLog mockLog = new ServerLog(completeServerLog);

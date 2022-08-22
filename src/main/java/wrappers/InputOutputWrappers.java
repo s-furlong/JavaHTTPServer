@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
+
 
 public class InputOutputWrappers implements InputOutputInterfaces {
 
@@ -35,11 +35,10 @@ public class InputOutputWrappers implements InputOutputInterfaces {
         return input.readLine();
     }
 
-    public String httpResponse(String s) throws IOException {
-        String response = "HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Length: 0\r\n\r\n";
-        output.write(response);
+    public String httpResponse(String clientData) throws IOException {
+        output.write(clientData);
         output.flush();
-        return response;
+        return clientData;
     }
 
     @Override
