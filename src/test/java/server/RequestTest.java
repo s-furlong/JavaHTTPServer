@@ -1,62 +1,58 @@
 package server;
 
+import constants.HTTPMethod;
+import constants.Path;
 import org.junit.jupiter.api.Test;
-import request.Request;
+import request.ClientRequest;
+import request.RequestBuild;
+
 
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class RequestTest {
-    @Test
-    public void testParsesCorrectly() {
-        var request = new Request("GET / HTTP/1.1\r\n\r\n");
-        request.parse();
-        assertEquals("GET", request.verb);
-        assertEquals("/", request.path);
-        assertEquals("HTTP/1.1", request.version);
-        assertEquals("", request.body);
+
+    private final HashMap<String, String> headers = testHeaders();
+
+    public static HashMap<String, String> testHeaders() {
+        HashMap<String, String> testHeaders = new HashMap<>();
+        testHeaders.put("User-Agent", "PostmanRuntime/7.29.2");
+        testHeaders.put("Accept", "*/*");
+        testHeaders.put("Host", "0.0.0.0:5000");
+        testHeaders.put("Accept-Encoding", "gzip, deflate, br");
+        testHeaders.put("Connection", "keep-alive");
+
+        return testHeaders;
     }
 
     @Test
-    public void testParseBody() {
-        var request = new Request("GET / HTTP/1.1\r\n\r\nhello World");
-        request.parse();
-        assertEquals("GET", request.verb);
-        assertEquals("/", request.path);
-        assertEquals("HTTP/1.1", request.version);
-        assertEquals("hello World", request.body);
+    public void testRequestWithNoHeaderOrBody() {
+        ClientRequest request = new RequestBuild()
+                .setVerb(HTTPMethod.GET)
+                .setPath(Path.SIMPLE_GET)
+                .buildRequest();
+        assertEquals(HTTPMethod.GET, request.verb);
+        assertEquals(Path.SIMPLE_GET, request.path);
+        assertNull(request.headers);
+        assertNull(request.body);
     }
 
     @Test
-    public void testParseEmptyHeader() {
-        var request = new Request("GET / HTTP/1.1\r\n\r\nhello World");
-        request.parse();
-        assertEquals("GET", request.verb);
-        assertEquals("/", request.path);
-        assertEquals("HTTP/1.1", request.version);
-        assertEquals("hello World", request.body);
-        assertEquals(new HashMap<>(), request.headers);
-    }
-
-    @Test
-    public void testParseHeader() {
-        var request = new Request("GET / HTTP/1.1\r\ncontent-type: text/html\r\n\r\nhello World");
-        request.parse();
-        var expectedHeaders = new HashMap<String, String>();
-        expectedHeaders.put("content-type", "text/html");
-        assertEquals("GET", request.verb);
-        assertEquals("/", request.path);
-        assertEquals("HTTP/1.1", request.version);
-        assertEquals("hello World", request.body);
-        assertEquals(expectedHeaders, request.headers);
-    }
-
-    @Test
-    public void testEmptyBody() {
-        var request = new Request("GET / HTTP/1.1\r\ncontent-type: text/html\r\n\r\n");
-        request.parse();
-        assertEquals("", request.body);
+    public void testRequestWithHeaderAndBody() {
+        String b = "Hello World";
+        ClientRequest request = new RequestBuild()
+                .setVerb(HTTPMethod.GET)
+                .setPath(Path.SIMPLE_GET)
+                .setHeaders(headers)
+                .setBody(b)
+                .buildRequest();
+        assertEquals(HTTPMethod.GET, request.verb);
+        assertEquals(Path.SIMPLE_GET, request.path);
+        assertEquals(testHeaders(), request.headers);
+        assertEquals(b, request.body);
 
     }
+
 }

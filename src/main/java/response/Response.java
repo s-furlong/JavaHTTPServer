@@ -12,6 +12,7 @@ public class Response {
     public Map<Integer, String> statusMessages = Map.of(
             200, "OK",
             404, "Not Found",
+            301, "Moved permanently",
             405, "Not Allowed");
 
     public Response(int status) {

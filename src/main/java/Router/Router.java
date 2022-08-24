@@ -12,9 +12,8 @@ public class Router {
 
     public static Response handle(Request request) {
         if ("/head_request".equals(request.path)) {
-            if (request.verb.equals("HEAD")) {
-                return new Response(200);
-            } else {
+            if (request.verb.equals("HEAD") |
+                    request.verb.equals("OPTIONS")) {
                 return new Response(405);
             }
         } else if ("/simple_get".equals(request.path)) {
@@ -37,12 +36,13 @@ public class Router {
             }
         } else if ("/redirect".equals(request.path)) {
             if (request.verb.equals("GET")) {
-                return new Response(200);
+                return new Response(301);
             } else {
                 return new Response(405);
             }
         } else {
             return new Response(404);
         }
+        return new Response(405);
     }
 }

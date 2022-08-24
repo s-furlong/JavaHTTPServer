@@ -2,32 +2,38 @@ package wrappers;
 
 import Interfaces.InputOutputInterfaces;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 
 public class InputOutputWrappers implements InputOutputInterfaces {
 
     public BufferedReader input;
-    public PrintWriter output;
+    public OutputStream output;
     public Socket clientSocket;
 
-    public InputOutputWrappers() {
-        this.input = null;
-        this.output = null;
-        this.clientSocket = null;
-    }
-
-    public void createInputStream(Socket clientSocket) throws IOException {
+    public InputOutputWrappers() throws IOException {
+        input = createInputStream();
+        output = createOutputStreamWriter();
         this.clientSocket = clientSocket;
-        input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
 
+    public BufferedReader createInputStream() throws IOException {
+        return new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
+    }
+
+    public OutputStream createOutputStreamWriter() throws IOException {
+        return clientSocket.getOutputStream();
+    }
+
+    @Override
+    public void createInputStream(Socket clientSocket) throws IOException {
+
+    }
+
+    @Override
     public void createOutputStreamWriter(Socket clientSocket) throws IOException {
-        output = new PrintWriter(clientSocket.getOutputStream(), true);
+
     }
 
     @Override
@@ -35,15 +41,25 @@ public class InputOutputWrappers implements InputOutputInterfaces {
         return input.readLine();
     }
 
-    public String httpResponse(String clientData) throws IOException {
-        output.write(clientData);
-        output.flush();
-        return clientData;
+    @Override
+    public void echoedMessage(String s) throws IOException {
+
     }
 
     @Override
-    public void echoedMessage(String s) {
-        output.println(s);
+    public String httpResponse(String s) throws IOException {
+        return null;
+    }
+
+    public String readMessage(int number) throws IOException {
+        char[] deconstrutedMessage = new char[number];
+        input.read(deconstrutedMessage, 0, number);
+        return new String(deconstrutedMessage, 0, number);
+    }
+
+    public void httpResponse(byte[] bytes) throws IOException {
+        output.write(bytes);
+        output.flush();
     }
 
     @Override
