@@ -23,7 +23,6 @@ class HttpServerTests {
     void init() {
 
         mockInputOutputWrapper.setReceivedMessage("hello");
-        mockInputOutputWrapper.setReceivedMessage("off");
 
     }
 

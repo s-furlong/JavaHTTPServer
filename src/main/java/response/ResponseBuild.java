@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Set;
 
 public class ResponseBuild {
-    private String serverLine = StatusCode.OK.formatFromCode();
-    private ArrayList<String> headers = new ArrayList<>();
-    private byte[] body;
+    public String serverLine = StatusCode.OK.formatFromCode();
+    public ArrayList<String> headers = new ArrayList<>();
+    public byte[] body;
 
     public void setServerLine(String ServerLine) {
         this.serverLine = serverLine;
