@@ -8,6 +8,7 @@ import request.RequestBuild;
 import request.RequestParse;
 
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RequestParseTest {
     String testRequest = "GET /simple_get HTTP/1.1\r\nAllow: */*\r\nContent-Length: 5\r\n\r\nhello";
+
+    @Test
+    public void testEmptyRequest() {
+        String testRequest = "";
+        RequestParse parser = new RequestParse(testRequest);
+        assertThrows(ParseException.class, () -> {
+            parser.verb();
+        });
+    }
+
+    @Test
+    public void testBadRequest() {
+        String testRequest = "hello";
+        RequestParse parser = new RequestParse(testRequest);
+        assertThrows(ParseException.class, () -> {
+            parser.verb();
+        });
+    }
 
     @Test
     public void testParseRetrievesVerb() {
