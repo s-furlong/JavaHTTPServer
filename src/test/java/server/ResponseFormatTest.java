@@ -1,7 +1,6 @@
 package server;
 
 import org.junit.jupiter.api.Test;
-import response.ResponseBuild;
 import response.ResponseFormat;
 import response.ServerResponse;
 

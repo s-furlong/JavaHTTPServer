@@ -3,6 +3,7 @@ package constants;
 public enum StatusCode {
     OK("200 OK"),
     REDIRECTED("301 Moved Permanently"),
+    INVALID("400 Bad Request"),
     NOT_FOUND("404 Not Found"),
     NOT_ALLOWED("405 Not Allowed");
 

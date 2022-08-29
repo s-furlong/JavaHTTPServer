@@ -13,6 +13,7 @@ public class MockInputOutWrapper implements InputOutputInterfaces {
     private final ArrayList<String> receivedMessages = new ArrayList<>();
     private final ArrayList<String> echoedMessages = new ArrayList<>();
     private int getNumberOfCallsToCloseConnection = 0;
+    private Socket clientSocket;
 
 
     @Override
@@ -46,6 +47,12 @@ public class MockInputOutWrapper implements InputOutputInterfaces {
         getNumberOfCallsToCloseConnection++;
 
     }
+
+    @Override
+    public void setClientSocket(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+    }
+
 
     public String setReceivedMessage(String s) {
         receivedMessages.add(s);

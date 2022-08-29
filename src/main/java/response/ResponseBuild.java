@@ -12,7 +12,7 @@ public class ResponseBuild {
     public ArrayList<String> headers = new ArrayList<>();
     public byte[] body;
 
-    public void setServerLine(String ServerLine) {
+    public void setServerLine(String serverLine) {
         this.serverLine = serverLine;
     }
 

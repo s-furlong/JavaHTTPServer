@@ -16,4 +16,5 @@ public interface InputOutputInterfaces {
 
     void closeInputOutputStreams() throws IOException;
 
+    void setClientSocket(Socket clientSocket);
 }

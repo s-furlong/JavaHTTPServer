@@ -12,11 +12,6 @@ public class InputOutputWrappers implements InputOutputInterfaces {
     public OutputStream output;
     public Socket clientSocket;
 
-    public InputOutputWrappers() throws IOException {
-        input = createInputStream();
-        output = createOutputStreamWriter();
-        this.clientSocket = clientSocket;
-    }
 
     public BufferedReader createInputStream() throws IOException {
         return new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
@@ -66,5 +61,9 @@ public class InputOutputWrappers implements InputOutputInterfaces {
     public void closeInputOutputStreams() throws IOException {
         input.close();
         output.close();
+    }
+
+    public void setClientSocket(Socket clientSocket) {
+        this.clientSocket = clientSocket;
     }
 }

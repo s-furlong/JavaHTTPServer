@@ -3,6 +3,9 @@ package server;
 import Interfaces.InputOutputInterfaces;
 import Interfaces.SocketInterfaces;
 import Router.Router;
+import constants.HTTPMethod;
+import constants.Path;
+import request.ClientRequest;
 import request.Request;
 import response.Response;
 import wrappers.InputOutputWrappers;
@@ -20,6 +23,7 @@ public class HttpServer {
         var inputOutputWrappers = new InputOutputWrappers();
         var serverLog = new ServerLog(log);
 
+
         socketWrappers.createNewServerSocket(clientPort);
         serverLog.logEstablishServer(clientPort);
 
@@ -31,23 +35,24 @@ public class HttpServer {
 
     static void run(InputOutputInterfaces inputOutputWrappers, SocketInterfaces socketWrappers, ServerLog serverLog) throws IOException {
         var clientSocket = socketWrappers.acceptClient();
+        inputOutputWrappers.setClientSocket(clientSocket);
+
         serverLog.logAcceptClient();
 
         inputOutputWrappers.createInputStream(clientSocket);
         inputOutputWrappers.createOutputStreamWriter(clientSocket);
 
 
-        Request request;
+        ClientRequest request = null;
         String rawRequest;
 
         rawRequest = inputOutputWrappers.receivedMessage();
         serverLog.logMessage(rawRequest);
 
-        request = new Request(rawRequest);
-        request.parse();
+        request = new ClientRequest(HTTPMethod.GET, Path.SIMPLE_GET, null, null);
 
 
-        var response = Router.handle(request);
+        var response = Router.generateResponse(request);
 
         String rawResponse = inputOutputWrappers.httpResponse(response.toString());
         serverLog.logResponse(rawResponse);

@@ -23,6 +23,7 @@ class HttpServerTests {
     void init() {
 
         mockInputOutputWrapper.setReceivedMessage("hello");
+        mockSocketWrapper.setMessage("GET / HTTP/1.1\r\n\r\n");
 
     }
 
@@ -58,23 +59,7 @@ class HttpServerTests {
 
         assertEquals("hello", mockInputOutputWrapper.setReceivedMessage(s));
     }
-
-    @Test
-    public void testRunCallsReceivedMessage() throws IOException {
-
-        HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
-
-        assertEquals(2, mockInputOutputWrapper.getNumberOfCallsReceiveMessages());
-    }
-
-    @Test
-    public void testRunCallsEchoMessages() throws IOException {
-
-        HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
-        ArrayList<String> s = new ArrayList<>(List.of("hello"));
-
-        assertEquals(s, mockInputOutputWrapper.getEchoedMessages());
-    }
+    
 
     @Test
     public void testRunCallsCloseConnection() throws IOException {
