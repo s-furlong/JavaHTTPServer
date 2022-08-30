@@ -11,6 +11,9 @@ import wrappers.InputOutputWrappers;
 import java.io.IOException;
 import java.util.HashMap;
 
+// Rename this to RequestFactory -- pass into it a raw string that somebody else has read
+// new RequestFactory() => this can be injected into your HTTPServer class somewhere
+// requestFactory.createRequest(rawString)
 public class RequestLogic {
     private final InputOutputWrappers requestServerMethods;
 

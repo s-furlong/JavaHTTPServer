@@ -27,10 +27,20 @@ public class HttpServer {
         serverLog.logEstablishServer(clientPort);
 
         while (true) {
+            // for Dependency Injection's sake, feel free to pass as many
+            // args as you need here
             run(inputOutputWrappers, socketWrappers, serverLog);
         }
 
     }
+
+//    class Mathinator {
+//        static void doMath(arg, arg) {}
+//
+//        static void doMath(arg, arg, arg) {}
+//    }
+//
+//    new Mathinaor().doMath(1, 3)
 
     static void run(InputOutputInterfaces inputOutputWrappers, SocketInterfaces socketWrappers, ServerLog serverLog) throws IOException {
         var clientSocket = socketWrappers.acceptClient();
@@ -45,8 +55,10 @@ public class HttpServer {
         inputOutputWrappers.createInputStream(clientSocket);
         inputOutputWrappers.createOutputStreamWriter(clientSocket);
 
+//        String rawRequest = inputOutputWrappers.readRawRequest();
+//        ClientRequest request = requestFactory.createRequest(rawRequest);
 
-
+        // Inject
         Router router = new Router();
 
         // We're up to the point where we need to
@@ -65,13 +77,17 @@ public class HttpServer {
         // Not sure this is going to work.  ClientRequest will always be a "something" -- an instantiated object, no?
         // I think it's ok to assume there will be some "request".  It's up to the router to handle that request,
         // even if it's a bad one
-        if (request != null) {
+//        if (request != null) {
             response = router.generateResponse(request);
+            // something's gotta take the response, stringify it, and send it -- create another factory, similar to above
+            // , to turn response into a raw string?
             socketWrappers.getResponse(response);
-        }
+//        }
 
 
         /*
+            This is what I originally brainstormed before the factory idea -- this is
+            subject to the factory ideas
             1. Something takes the socket and opens up input stream
             2. Something takes that input stream and reads a raw string message
             3. Something converts that raw string message into a Request object
@@ -80,6 +96,7 @@ public class HttpServer {
             5. Something takes that Response object and turns it into a raw string
             6. Something takes the socket and opens up an output stream
             7. Something takes the output stream and sends the raw string
+
 
          */
 
