@@ -6,8 +6,7 @@ import Router.Router;
 import constants.HTTPMethod;
 import constants.Path;
 import request.ClientRequest;
-import request.Request;
-import response.Response;
+import response.ServerResponse;
 import wrappers.InputOutputWrappers;
 import wrappers.SocketWrappers;
 
@@ -43,19 +42,13 @@ public class HttpServer {
         inputOutputWrappers.createOutputStreamWriter(clientSocket);
 
 
-        ClientRequest request = null;
-        String rawRequest;
-
-        rawRequest = inputOutputWrappers.receivedMessage();
-        serverLog.logMessage(rawRequest);
-
-        request = new ClientRequest(HTTPMethod.GET, Path.SIMPLE_GET, null, null);
-
-
-        var response = Router.generateResponse(request);
-
-        String rawResponse = inputOutputWrappers.httpResponse(response.toString());
-        serverLog.logResponse(rawResponse);
+        Router router = new Router();
+        ClientRequest request = socketWrappers.getRequest();
+        ServerResponse response;
+        if (request != null) {
+            response = router.generateResponse(request);
+            socketWrappers.getResponse(response);
+        }
 
 
         inputOutputWrappers.closeInputOutputStreams();

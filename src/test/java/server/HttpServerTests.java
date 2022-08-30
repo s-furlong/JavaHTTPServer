@@ -5,10 +5,10 @@ import mocks.MockInputOutWrapper;
 import mocks.MockSocketWrapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import wrappers.InputOutputWrappers;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static server.ServerLog.completeServerLog;
@@ -16,7 +16,9 @@ import static server.ServerLog.completeServerLog;
 
 class HttpServerTests {
     MockInputOutWrapper mockInputOutputWrapper = new MockInputOutWrapper();
-    MockSocketWrapper mockSocketWrapper = new MockSocketWrapper();
+    private Socket clientSocket;
+    private InputOutputWrappers inputOutputWrappers;
+    MockSocketWrapper mockSocketWrapper = new MockSocketWrapper(clientSocket, inputOutputWrappers);
     ServerLog mockLog = new ServerLog(completeServerLog);
 
     @BeforeEach
@@ -59,7 +61,7 @@ class HttpServerTests {
 
         assertEquals("hello", mockInputOutputWrapper.setReceivedMessage(s));
     }
-    
+
 
     @Test
     public void testRunCallsCloseConnection() throws IOException {
