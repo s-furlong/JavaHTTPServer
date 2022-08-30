@@ -18,16 +18,20 @@ import java.util.Set;
 public class Router {
     public static ServerResponse generateResponse(ClientRequest request) throws IOException {
         HashMap<Path, IRouter> routeAccessor = retrieveRoutes();
+        // Needs to be renamed -- see below.  The things being called IRouters are really IControllers
         IRouter route = routeAccessor.get(request.path);
 
         if (route == null) {
+            // TD: note all this is commented out
             return new ServerResponse(StatusCode.INVALID.formatFromCode(), null, null);
         }
 
         if (route != null) {
+            // TD: Do these methods like accessVerb and convertRequest exist yet?
             Set<HTTPMethod> validVerb = route.accessVerb();
 
             if (validVerb.contains(request.verb)) {
+                // TD I see where you're going after staring at this.  I like it.  Polymorphism.
                 return route.convertRequest(request);
             } else {
                 return invalidMethod(validVerb);
@@ -37,6 +41,8 @@ public class Router {
 
     }
 
+    // The second objects here are not Routers (so no IRouter) -- they are controllers
+    // The router examines the route and then funnels the request to the correct controller
     public static HashMap<Path, IRouter> retrieveRoutes() {
         HashMap<Path, IRouter> routes = new HashMap<>();
         routes.put(Path.SIMPLE_GET, new SimpleGet());

@@ -32,6 +32,7 @@ public class SocketWrappers implements SocketInterfaces {
 
     @Override
     public void getResponse(ServerResponse response) throws IOException {
+        // TD: Do you need a `return` here?
         new ResponseLogic(socketMethods).outputResponse(response);
     }
 

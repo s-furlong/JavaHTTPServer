@@ -14,11 +14,16 @@ import java.util.HashMap;
 public class RequestLogic {
     private final InputOutputWrappers requestServerMethods;
 
+    // TD: This is passing the entire instance of an InputOutputWrapper -- do we really need all that?
     public RequestLogic(InputOutputWrappers requestServerMethods) {
         this.requestServerMethods = requestServerMethods;
     }
 
+    // This is a hard one to name, which means it is probably doing too many things
+    // That is, it is both reading the raw string, and converting it to a Request.
+    // Can we break these out?
     public ClientRequest inputRead() throws IOException {
+        // TD Where is the raw string going to come from?
         String request = RequestFormatter();
         if (!request.isBlank()) {
             RequestParse parsedRequest = new RequestParse(request);
