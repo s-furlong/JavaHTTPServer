@@ -25,15 +25,6 @@ public class SocketWrappers implements SocketInterfaces {
         return serverSocket.accept();
     }
 
-    @Override
-    public ClientRequest getRequest() throws IOException {
-        return new RequestLogic(socketMethods).inputRead();
-    }
-
-    @Override
-    public void getResponse(ServerResponse response) throws IOException {
-        new ResponseLogic(socketMethods).outputResponse(response);
-    }
 
     @Override
     public void closeClientConnection(Socket clientSocket) throws IOException {

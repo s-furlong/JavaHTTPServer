@@ -10,15 +10,13 @@ import java.net.Socket;
 
 public class MockSocketWrapper implements SocketInterfaces {
     private final Socket clientSocket;
-    private final InputOutputWrappers inputOutputWrappers;
     private int getNumberOfCallsToAcceptClient = 0;
     private int getCallToCreateServerSocket = 0;
     private int getNumberOfCallsToCloseClientConnection = 0;
     private String message;
 
-    public MockSocketWrapper(Socket clientSocket, InputOutputWrappers inputOutputWrappers) {
+    public MockSocketWrapper(Socket clientSocket) {
         this.clientSocket = clientSocket;
-        this.inputOutputWrappers = inputOutputWrappers;
     }
 
     @Override
@@ -30,16 +28,6 @@ public class MockSocketWrapper implements SocketInterfaces {
     public Socket acceptClient() {
         getNumberOfCallsToAcceptClient++;
         return new MockSocket(this.message);
-    }
-
-    @Override
-    public ClientRequest getRequest() throws IOException {
-        return null;
-    }
-
-    @Override
-    public void getResponse(ServerResponse response) throws IOException {
-
     }
 
     public void setMessage(String message) {

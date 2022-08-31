@@ -18,14 +18,13 @@ class HttpServerTests {
     MockInputOutWrapper mockInputOutputWrapper = new MockInputOutWrapper();
     private Socket clientSocket;
     private InputOutputWrappers inputOutputWrappers;
-    MockSocketWrapper mockSocketWrapper = new MockSocketWrapper(clientSocket, inputOutputWrappers);
+    MockSocketWrapper mockSocketWrapper = new MockSocketWrapper(clientSocket);
     ServerLog mockLog = new ServerLog(completeServerLog);
 
     @BeforeEach
     void init() {
 
-        mockInputOutputWrapper.setReceivedMessage("hello");
-        mockSocketWrapper.setMessage("GET / HTTP/1.1\r\n\r\n");
+        mockInputOutputWrapper.setReceivedMessage("GET /simple_get HTTP/1.1\r\n\r\n");
 
     }
 

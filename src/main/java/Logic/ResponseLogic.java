@@ -16,7 +16,7 @@ public class ResponseLogic {
     public void outputResponse(ServerResponse response) throws IOException {
         if (response != null) {
             byte[] responseInBytes = ResponseFormat.toBytes(response);
-            responseMethods.httpResponse(responseInBytes);
+            responseMethods.httpResponse(String.valueOf(responseInBytes));
         }
     }
 }

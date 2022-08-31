@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class RequestLogic {
-    private final InputOutputWrappers requestServerMethods;
+    public final InputOutputWrappers requestServerMethods;
 
     public RequestLogic(InputOutputWrappers requestServerMethods) {
         this.requestServerMethods = requestServerMethods;
@@ -55,7 +55,7 @@ public class RequestLogic {
     }
 
     public String addBody(int size) throws IOException {
-        return requestServerMethods.readMessage(size);
+        return null;
     }
 
 }

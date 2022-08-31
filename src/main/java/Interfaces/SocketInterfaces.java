@@ -11,10 +11,6 @@ public interface SocketInterfaces {
 
     Socket acceptClient() throws IOException;
 
-    ClientRequest getRequest() throws IOException;
-
-    void getResponse(ServerResponse response) throws IOException;
-
     void closeClientConnection(Socket clientSocket) throws IOException;
 
 }

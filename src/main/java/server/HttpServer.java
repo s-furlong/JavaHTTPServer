@@ -3,14 +3,13 @@ package server;
 import Interfaces.InputOutputInterfaces;
 import Interfaces.SocketInterfaces;
 import Router.Router;
-import constants.HTTPMethod;
-import constants.Path;
 import request.ClientRequest;
+import request.Request;
 import response.ServerResponse;
 import wrappers.InputOutputWrappers;
 import wrappers.SocketWrappers;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class HttpServer {
@@ -41,14 +40,19 @@ public class HttpServer {
         inputOutputWrappers.createInputStream(clientSocket);
         inputOutputWrappers.createOutputStreamWriter(clientSocket);
 
+        String rawRequest;
+        Request request;
 
-        Router router = new Router();
-        ClientRequest request = socketWrappers.getRequest();
-        ServerResponse response;
-        if (request != null) {
-            response = router.generateResponse(request);
-            socketWrappers.getResponse(response);
-        }
+        rawRequest = inputOutputWrappers.receivedMessage();
+        serverLog.logMessage(rawRequest);
+
+        request = new Request(rawRequest);
+        request.parse();
+
+//        var response = Router.generateResponse(request);
+//
+//        String rawResponse = inputOutputWrappers.httpResponse(response.toString());
+//        serverLog.logResponse(rawResponse);
 
 
         inputOutputWrappers.closeInputOutputStreams();

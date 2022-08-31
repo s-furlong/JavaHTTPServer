@@ -28,18 +28,17 @@ public class MockInputOutWrapper implements InputOutputInterfaces {
 
     @Override
     public String receivedMessage() {
-        var message = receivedMessages.remove(0);
-        return message;
+        if (receivedMessages.size() > 0) {
+            return receivedMessages.remove(0);
+        } else {
+            return "";
+        }
     }
 
     @Override
-    public void echoedMessage(String s) {
-        echoedMessages.add(s);
-    }
+    public String httpResponse(String request) throws IOException {
 
-    @Override
-    public String httpResponse(String s) throws IOException {
-        return null;
+        return request;
     }
 
     @Override
@@ -50,7 +49,7 @@ public class MockInputOutWrapper implements InputOutputInterfaces {
 
     @Override
     public void setClientSocket(Socket clientSocket) {
-        this.clientSocket = clientSocket;
+
     }
 
 
