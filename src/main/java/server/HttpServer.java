@@ -3,9 +3,7 @@ package server;
 import Interfaces.InputOutputInterfaces;
 import Interfaces.SocketInterfaces;
 import Router.Router;
-import request.ClientRequest;
 import request.Request;
-import response.ServerResponse;
 import wrappers.InputOutputWrappers;
 import wrappers.SocketWrappers;
 
@@ -49,10 +47,12 @@ public class HttpServer {
         request = new Request(rawRequest);
         request.parse();
 
-        var response = new Router().generateResponse(request);
+        var rawResponse = new Router().generateResponse(request);
+        rawResponse.parse();
+        String response = rawResponse.format();
 
-        String rawResponse = inputOutputWrappers.httpResponse(response.toString());
-        serverLog.logResponse(rawResponse);
+        inputOutputWrappers.httpResponse(response);
+        serverLog.logResponse(response);
 
 
         inputOutputWrappers.closeInputOutputStreams();

@@ -5,19 +5,17 @@ import mocks.MockInputOutWrapper;
 import mocks.MockSocketWrapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import wrappers.InputOutputWrappers;
 
 import java.io.IOException;
 import java.net.Socket;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static server.ServerLog.completeServerLog;
 
 
 class HttpServerTests {
     MockInputOutWrapper mockInputOutputWrapper = new MockInputOutWrapper();
-    private Socket clientSocket;
-    private InputOutputWrappers inputOutputWrappers;
+    public Socket clientSocket;
     MockSocketWrapper mockSocketWrapper = new MockSocketWrapper(clientSocket);
     ServerLog mockLog = new ServerLog(completeServerLog);
 
