@@ -2,14 +2,16 @@ package Router;
 
 import constants.HTTPMethod;
 import request.ClientRequest;
-import response.ServerResponse;
+import request.Request;
+import response.Response;
 
 import java.io.IOException;
 import java.util.Set;
 
-public interface IRouter {
+public interface PathHandler {
+
     Set<HTTPMethod> accessVerb();
 
-    ServerResponse convertRequest(ClientRequest request) throws IOException;
+    Response getResponse(Request request) throws IOException;
 
 }

@@ -15,7 +15,6 @@ public enum StatusCode {
 
     public String formatFromCode() {
         StringBuilder line = new StringBuilder();
-        line.append("HTTP/1.1 ");
         line.append(this.code);
         return line.toString();
     }

@@ -2,7 +2,6 @@ package server;
 
 import constants.HTTPMethod;
 import constants.Path;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import request.Request;
 
@@ -10,7 +9,7 @@ import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ResponseClassTests {
+public class RequestClassTests {
     String simpleRawRequest = "GET /simple_get HTTP/1.1\r\n\r\n";
     String rawRequestWithBody = "GET /simple_get HTTP/1.1\r\nAllow: */*\r\nContent-Length: 5\r\n\r\nhello";
 
@@ -74,14 +73,14 @@ public class ResponseClassTests {
     }
 
     @Test
-    public void testGettingHeaders() {
+    public void testFormatHeaders() {
         Request request = new Request(rawRequestWithBody);
 
         HashMap<String, String> expectedHeaders = new HashMap<>();
         expectedHeaders.put("Content-Length", "5");
         expectedHeaders.put("Allow", "*/*");
 
-        HashMap<String, String> testHeaders = request.getHeaders();
+        HashMap<String, String> testHeaders = request.formatHeaders();
 
         assertEquals(expectedHeaders, testHeaders);
     }

@@ -49,10 +49,10 @@ public class HttpServer {
         request = new Request(rawRequest);
         request.parse();
 
-//        var response = Router.generateResponse(request);
-//
-//        String rawResponse = inputOutputWrappers.httpResponse(response.toString());
-//        serverLog.logResponse(rawResponse);
+        var response = new Router().generateResponse(request);
+
+        String rawResponse = inputOutputWrappers.httpResponse(response.toString());
+        serverLog.logResponse(rawResponse);
 
 
         inputOutputWrappers.closeInputOutputStreams();

@@ -24,7 +24,7 @@ public class Request {
         this.verb = getVerb();
         this.path = getPath();
         this.version = getVersion();
-        this.headers = getHeaders();
+        this.headers = formatHeaders();
         this.body = getBody();
     }
 
@@ -48,7 +48,7 @@ public class Request {
         return version.trim();
     }
 
-    public HashMap<String, String> getHeaders() {
+    public HashMap<String, String> formatHeaders() {
         String request = extractComponents().split(Format.BLANKLINE)[0];
         String[] headerArray = request.split(Format.NEWLINE);
 

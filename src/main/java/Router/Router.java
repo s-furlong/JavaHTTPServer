@@ -1,56 +1,43 @@
 package Router;
 
-import Router.Pathes.EchoBody;
-import Router.Pathes.HeadRequest;
+import Router.Pathes.Redirect;
 import Router.Pathes.SimpleGet;
-import Router.Pathes.SimpleGetWithBody;
 import constants.HTTPMethod;
 import constants.Path;
 import constants.StatusCode;
-import request.ClientRequest;
-import response.ResponseBuild;
-import response.ServerResponse;
+import request.Request;
+import response.Response;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
 
 public class Router {
-    public static ServerResponse generateResponse(ClientRequest request) throws IOException {
-        HashMap<Path, IRouter> routeAccessor = retrieveRoutes();
-        IRouter route = routeAccessor.get(request.path);
-
-        if (route == null) {
-            return new ServerResponse(StatusCode.INVALID.formatFromCode(), null, null);
-        }
+    public Response generateResponse(Request request) throws IOException {
+        HashMap<Path, PathHandler> routeAccessor = retrieveRoutes();
+        PathHandler route = routeAccessor.get(request.path);
 
         if (route != null) {
-            Set<HTTPMethod> validVerb = route.accessVerb();
+            Set<HTTPMethod> usableVerbs = route.accessVerb();
 
-            if (validVerb.contains(request.verb)) {
-                return route.convertRequest(request);
+            if (usableVerbs.contains(request.verb)) {
+                return route.getResponse(request);
             } else {
-                return invalidMethod(validVerb);
+                return new Response(StatusCode.NOT_ALLOWED);
             }
         }
-        return new ServerResponse(StatusCode.NOT_FOUND.formatFromCode(), null, null);
 
+        return new Response(StatusCode.NOT_FOUND);
     }
 
-    public static HashMap<Path, IRouter> retrieveRoutes() {
-        HashMap<Path, IRouter> routes = new HashMap<>();
+    public HashMap<Path, PathHandler> retrieveRoutes() {
+        HashMap<Path, PathHandler> routes = new HashMap<>();
         routes.put(Path.SIMPLE_GET, new SimpleGet());
-        routes.put(Path.SIMPLE_GET_WITH_BODY, new SimpleGetWithBody());
-        routes.put(Path.HEAD_REQUEST, new HeadRequest());
-        routes.put(Path.ECHO_BODY, new EchoBody());
+        routes.put(Path.REDIRECT, new Redirect());
+//        routes.put(Path.SIMPLE_GET_WITH_BODY, new SimpleGetWithBody());
+//        routes.put(Path.HEAD_REQUEST, new HeadRequest());
+//        routes.put(Path.ECHO_BODY, new EchoBody());
         return routes;
     }
 
-
-    public static ServerResponse invalidMethod(Set<HTTPMethod> validVerb) {
-        ResponseBuild buildResponse = new ResponseBuild();
-        buildResponse.setServerLine(StatusCode.NOT_ALLOWED.formatFromCode());
-        buildResponse.addAllowHeader(validVerb);
-        return buildResponse.buildResponse();
-    }
 }

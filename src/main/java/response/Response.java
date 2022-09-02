@@ -1,45 +1,61 @@
 package response;
 
+import constants.Format;
+import constants.StatusCode;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Response {
-    public int status;
-    public String message;
-    public Map<String, String> headers = new HashMap<>();
-    public String body;
+    public StatusCode rawStatus;
+    public Map<String, String> mapHeaders = new HashMap<>();
     public String version;
-    public Map<Integer, String> statusMessages = Map.of(
-            200, "OK",
-            404, "Not Found",
-            301, "Moved permanently",
-            405, "Not Allowed");
+    public String status;
+    public String headers;
 
-    public Response(int status) {
-        this.status = status;
+
+    public Response(StatusCode rawStatus) {
+        this.rawStatus = rawStatus;
     }
 
-    public Response(int status, Map<String, String> headers) {
-        this.status = status;
-        this.headers = headers;
+    public Response(StatusCode rawStatus, Map<String, String> mapHeaders) {
+        this.rawStatus = rawStatus;
+        this.mapHeaders = mapHeaders;
     }
 
-    @Override
-    public String toString() {
-        String headerString = "";
-        if (!headers.isEmpty()) {
-            for (var key : headers.keySet()) {
-                headerString += key + ": " + headers.get(key) + "\r\n";
+    public void parse() {
+        this.version = getVersion();
+        this.status = getStatus();
+        this.headers = getHeaders();
+
+    }
+
+    public String format() {
+        return version + " " + status + Format.NEWLINE + headers + Format.NEWLINE;
+    }
+
+    public String getVersion() {
+        String version = "HTTP/1.1";
+        return version;
+    }
+
+    public String getStatus() {
+        String stringStatus = rawStatus.formatFromCode();
+        return stringStatus;
+    }
+
+    public String getHeaders() {
+        String headers = "";
+        if (!mapHeaders.isEmpty()) {
+            for (var key : mapHeaders.keySet()) {
+                headers += key + ": " + mapHeaders.get(key) + Format.NEWLINE;
             }
         }
-        if (this.message == null) {
-            this.message = statusMessages.get(this.status);
-        }
-        return "HTTP/1.1 " + this.status + " " + this.message + "\r\n" + headerString + "\r\n";
+        return headers;
     }
 
     public void addHeader(String name, String value) {
-        headers.put(name, value);
+        mapHeaders.put(name, value);
     }
 
 

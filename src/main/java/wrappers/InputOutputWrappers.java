@@ -31,10 +31,10 @@ public class InputOutputWrappers implements InputOutputInterfaces {
         return input.readLine();
     }
 
-    public String httpResponse(String bytes) throws IOException {
-        output.write(Integer.parseInt(bytes));
+    public String httpResponse(String stringResponse) throws IOException {
+        output.write(stringResponse);
         output.flush();
-        return bytes;
+        return stringResponse;
     }
 
     @Override
