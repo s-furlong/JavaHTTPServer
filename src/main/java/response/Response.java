@@ -1,10 +1,10 @@
 package response;
 
 import constants.Format;
+import constants.HTTPMethod;
 import constants.StatusCode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Response {
     public StatusCode rawStatus;
@@ -20,7 +20,12 @@ public class Response {
 
     public Response(StatusCode rawStatus, Map<String, String> mapHeaders) {
         this.rawStatus = rawStatus;
-        this.mapHeaders = mapHeaders;
+        if (mapHeaders != null) {
+            this.mapHeaders = mapHeaders;
+        } else {
+            throw new IllegalArgumentException("Headers cant be null");
+        }
+
     }
 
     public void parse() {
@@ -58,5 +63,14 @@ public class Response {
         mapHeaders.put(name, value);
     }
 
+    public void addAllowHeader(List<HTTPMethod> verbs) {
+        String name = "Allow";
+        ArrayList<String> methods = new ArrayList<>();
+        for (HTTPMethod verb : verbs) {
+            methods.add(verb.name());
+        }
+        String value = String.join(", ", methods);
 
+        addHeader(name, value);
+    }
 }

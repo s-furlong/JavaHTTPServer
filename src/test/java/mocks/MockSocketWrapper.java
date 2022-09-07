@@ -1,11 +1,7 @@
 package mocks;
 
 import Interfaces.SocketInterfaces;
-import request.ClientRequest;
-import response.ServerResponse;
-import wrappers.InputOutputWrappers;
 
-import java.io.IOException;
 import java.net.Socket;
 
 public class MockSocketWrapper implements SocketInterfaces {

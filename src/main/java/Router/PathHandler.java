@@ -6,11 +6,12 @@ import request.Request;
 import response.Response;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 public interface PathHandler {
 
-    Set<HTTPMethod> accessVerb();
+    List<HTTPMethod> accessVerb();
 
     Response getResponse(Request request) throws IOException;
 

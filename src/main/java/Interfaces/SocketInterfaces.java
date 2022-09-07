@@ -1,8 +1,5 @@
 package Interfaces;
 
-import request.ClientRequest;
-import response.ServerResponse;
-
 import java.io.IOException;
 import java.net.Socket;
 
