@@ -16,7 +16,7 @@ public class RouterTest {
 
 
     @Test
-    public void testRetrieveRoutes() throws IOException {
+    public void testRetrieveRoutes() {
         Router router = new Router();
         var routes = router.retrieveRoutes();
         var expected = new SimpleGet();
@@ -70,11 +70,50 @@ public class RouterTest {
     }
 
     @Test
-    public void testCorrectHeadRequestWithAllowHeader() throws IOException {
+    public void testCorrectMethodOptionsRoute() throws IOException {
+        Request request = new Request("GET /method_options HTTP/1.1\r\n\r\n");
+        request.parse();
+        Router router = new Router();
+        Response response = router.generateResponse(request);
+        response.parse();
+
+        assertEquals("HTTP/1.1 200 OK\r\nallow: GET, HEAD, OPTIONS\r\n\r\n", response.format());
+    }
+
+    @Test
+    public void testCorrectSimpleGetBodyRoute() throws IOException {
+        String simpleGetWithABody = "GET /simple_get_with_body HTTP/1.1\r\nContent-Length: 11\r\n\r\nHello world";
+        Request request = new Request(simpleGetWithABody);
+        request.parse();
+        Router router = new Router();
+        Response response = router.generateResponse(request);
+        response.parse();
+
+        assertEquals("HTTP/1.1 200 OK\r\nContent-Length: 11\r\n\r\nHello world", response.format());
+    }
+
+    @Test
+    public void testCorrectSimplePostRoute() throws IOException {
+        String simplePutWithABody = "POST /echo_body HTTP/1.1\r\nContent-Length: 5\r\n\r\nHello";
+        Request request = new Request(simplePutWithABody);
+        request.parse();
+        Router router = new Router();
+        Response response = router.generateResponse(request);
+        response.parse();
+
+        assertEquals("HTTP/1.1 200 OK\r\nContent-Length: 5\r\n\r\nHello", response.format());
+    }
+
+    @Test
+    public void testIncorrectVerbHeadRequestAllowsHeaders() throws IOException {
         Request request = new Request("GET /head_request HTTP/1.1\r\n\r\n");
         request.parse();
         Router router = new Router();
         Response response = router.generateResponse(request);
-        assertEquals(StatusCode.NOT_ALLOWED, response.rawStatus);
+        response.parse();
+        var expected = "HTTP/1.1 405 Not Allowed\r\nallow: HEAD, OPTIONS\r\n\r\n";
+        var actual = response.format();
+        assertEquals(expected, actual);
     }
+
 }

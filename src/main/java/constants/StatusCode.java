@@ -3,7 +3,6 @@ package constants;
 public enum StatusCode {
     OK("200 OK"),
     REDIRECTED("301 Moved Permanently"),
-    INVALID("400 Bad Request"),
     NOT_FOUND("404 Not Found"),
     NOT_ALLOWED("405 Not Allowed");
 
@@ -14,9 +13,7 @@ public enum StatusCode {
     }
 
     public String formatFromCode() {
-        StringBuilder line = new StringBuilder();
-        line.append(this.code);
-        return line.toString();
+        return this.code;
     }
 
 }

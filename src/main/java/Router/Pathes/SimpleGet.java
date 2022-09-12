@@ -6,9 +6,7 @@ import constants.StatusCode;
 import request.Request;
 import response.Response;
 
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 public class SimpleGet implements PathHandler {
     @Override

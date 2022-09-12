@@ -6,6 +6,9 @@ class Response
 
   def allowed_headers
     response.headers["allow"].split(/[ \t]*,[ \t]*/)
+  rescue
+    require "pry"
+    binding.pry
   end
 
   def body

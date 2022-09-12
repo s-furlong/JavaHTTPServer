@@ -54,9 +54,9 @@ class HttpServerTests {
     public void testRunReceivesMessages() throws IOException {
 
         HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
-        String s = "hello";
+        String s = "GET /simple_get_with_body HTTP/1.1\r\nContent-Length: 11\r\n\r\nHello world";
 
-        assertEquals("hello", mockInputOutputWrapper.setReceivedMessage(s));
+        assertEquals(s, mockInputOutputWrapper.setReceivedMessage(s));
     }
 
 

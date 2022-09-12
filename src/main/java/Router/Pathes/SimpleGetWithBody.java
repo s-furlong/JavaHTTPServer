@@ -9,7 +9,7 @@ import response.Response;
 import java.io.IOException;
 import java.util.List;
 
-public class Redirect implements PathHandler {
+public class SimpleGetWithBody implements PathHandler {
     @Override
     public List<HTTPMethod> accessVerb() {
         return List.of(HTTPMethod.GET, HTTPMethod.HEAD);
@@ -17,9 +17,14 @@ public class Redirect implements PathHandler {
 
     @Override
     public Response getResponse(Request request) throws IOException {
-        var response = new Response(StatusCode.REDIRECTED);
-        response.addHeader("Location", "http://0.0.0.0:5000/simple_get");
-        return response;
+        HTTPMethod verb = request.verb;
+        String body = "Hello world";
 
+        Response response = new Response(StatusCode.OK, body);
+        if (verb == HTTPMethod.GET) {
+            response.contentLengthHeader(body);
+        }
+
+        return response;
     }
 }

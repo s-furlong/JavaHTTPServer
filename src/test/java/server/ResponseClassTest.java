@@ -17,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ResponseClassTest {
     private final Map<String, String> headers = Map.of("Content-Length", "5");
     private List<HTTPMethod> verbs = List.of(HTTPMethod.HEAD, HTTPMethod.OPTIONS);
+    private String body = "hello";
+    private String noBody = "";
 
     @Test
     public void TestOKResponse() {
@@ -74,7 +76,7 @@ public class ResponseClassTest {
         response.addAllowHeader(verbs);
         response.parse();
 
-        var expected = "Allow: HEAD, OPTIONS\r\n";
+        var expected = "allow: HEAD, OPTIONS\r\n";
         var actual = response.headers;
 
         assertEquals(expected, actual);
@@ -83,9 +85,51 @@ public class ResponseClassTest {
     @Test
     public void testNullHeaders() {
         assertThrows(IllegalArgumentException.class, () -> {
-            Response response = new Response(StatusCode.OK, null);
+            Response response = new Response(StatusCode.OK, null, "body");
         });
+    }
 
+    @Test
+    public void testAccessBody() {
+        Response response = new Response(StatusCode.OK, headers, body);
+        var expected = "hello";
+        var actual = response.getBody();
+        assertEquals(expected, actual);
+    }
 
+    @Test
+    public void testContentLength() {
+        Response response = new Response(StatusCode.OK);
+        response.contentLengthHeader(body);
+        response.parse();
+
+        var expected = "Content-Length: 5\r\n";
+        var actual = response.headers;
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testContentLengthNone() {
+        Response response = new Response(StatusCode.OK);
+        response.contentLengthHeader(noBody);
+        response.parse();
+
+        var expected = "Content-Length: 0\r\n";
+        var actual = response.headers;
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testResponseHeaders() {
+        Response response = new Response(StatusCode.OK);
+        response.contentLengthHeader(noBody);
+        response.parse();
+
+        var expected = "HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n";
+        var actual = response.format();
+
+        assertEquals(expected, actual);
     }
 }

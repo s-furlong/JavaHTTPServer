@@ -1,8 +1,6 @@
 package Router;
 
-import Router.Pathes.HeadRequest;
-import Router.Pathes.Redirect;
-import Router.Pathes.SimpleGet;
+import Router.Pathes.*;
 import constants.HTTPMethod;
 import constants.Path;
 import constants.StatusCode;
@@ -24,10 +22,11 @@ public class Router {
             if (usableVerbs.contains(request.verb)) {
                 return route.getResponse(request);
             } else {
-                return new Response(StatusCode.NOT_ALLOWED);
+                var response = new Response(StatusCode.NOT_ALLOWED);
+                response.addAllowHeader(usableVerbs);
+                return response;
             }
         }
-
         return new Response(StatusCode.NOT_FOUND);
     }
 
@@ -36,8 +35,10 @@ public class Router {
         routes.put(Path.SIMPLE_GET, new SimpleGet());
         routes.put(Path.REDIRECT, new Redirect());
         routes.put(Path.HEAD_REQUEST, new HeadRequest());
-//        routes.put(Path.SIMPLE_GET_WITH_BODY, new SimpleGetWithBody());
-//        routes.put(Path.ECHO_BODY, new EchoBody());
+        routes.put(Path.METHOD_OPTIONS, new MethodOptions());
+        routes.put(Path.METHOD_OPTIONS2, new MethodOptions2());
+        routes.put(Path.SIMPLE_GET_WITH_BODY, new SimpleGetWithBody());
+        routes.put(Path.ECHO_BODY, new SimplePost());
         return routes;
     }
 

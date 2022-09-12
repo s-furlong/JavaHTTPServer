@@ -1,6 +1,7 @@
 package wrappers;
 
 import Interfaces.InputOutputInterfaces;
+import constants.Format;
 
 import java.io.*;
 import java.net.Socket;
@@ -28,7 +29,16 @@ public class InputOutputWrappers implements InputOutputInterfaces {
 
     @Override
     public String receivedMessage() throws IOException {
-        return input.readLine();
+        StringBuilder request = new StringBuilder();
+        String line;
+        while ((line = input.readLine()) != null) {
+            request.append(line).append(Format.NEWLINE);
+            if (line.equals("")) {
+                break;
+            }
+        }
+        return request.toString();
+
     }
 
     public String httpResponse(String stringResponse) throws IOException {

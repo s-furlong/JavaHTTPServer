@@ -5,8 +5,6 @@ class Spinach::Features::SimpleGet < Spinach::FeatureSteps
 
   step 'I make a GET request to "/simple_get"' do
     @response = Requests.get("/simple_get")
-    require "pry"
-    binding.pry
   end
 
   step 'I make a GET request to "/simple_get_with_body"' do

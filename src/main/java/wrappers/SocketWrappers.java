@@ -18,7 +18,9 @@ public class SocketWrappers implements SocketInterfaces {
 
     @Override
     public Socket acceptClient() throws IOException {
-        return serverSocket.accept();
+        var socket = serverSocket.accept();
+//        socket.setSoTimeout(500);
+        return socket;
     }
 
 

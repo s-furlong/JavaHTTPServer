@@ -8,18 +8,17 @@ import response.Response;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
-public class Redirect implements PathHandler {
+public class MethodOptions implements PathHandler {
     @Override
     public List<HTTPMethod> accessVerb() {
-        return List.of(HTTPMethod.GET, HTTPMethod.HEAD);
+        return List.of(HTTPMethod.GET, HTTPMethod.HEAD, HTTPMethod.OPTIONS);
     }
 
     @Override
     public Response getResponse(Request request) throws IOException {
-        var response = new Response(StatusCode.REDIRECTED);
-        response.addHeader("Location", "http://0.0.0.0:5000/simple_get");
-        return response;
-
+        var methods = accessVerb().stream().map(HTTPMethod::toString).toList();
+        return new Response(StatusCode.OK, Map.of("allow", String.join(", ", methods)));
     }
 }
