@@ -12,6 +12,7 @@ public class InputOutputWrappers implements InputOutputInterfaces {
     public BufferedReader input;
     public PrintWriter output;
 
+
     public InputOutputWrappers() {
         this.input = null;
         this.output = null;
@@ -41,10 +42,16 @@ public class InputOutputWrappers implements InputOutputInterfaces {
 
     }
 
-    public String httpResponse(String stringResponse) throws IOException {
+    public String readBody(int contentLength) throws IOException {
+        char[] charBody = new char[contentLength];
+        input.read(charBody, 0, contentLength);
+        return new String(charBody, 0, contentLength);
+    }
+
+
+    public void httpResponse(String stringResponse) {
         output.write(stringResponse);
         output.flush();
-        return stringResponse;
     }
 
     @Override

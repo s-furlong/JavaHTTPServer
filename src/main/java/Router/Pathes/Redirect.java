@@ -6,7 +6,6 @@ import constants.StatusCode;
 import request.Request;
 import response.Response;
 
-import java.io.IOException;
 import java.util.List;
 
 public class Redirect implements PathHandler {
@@ -16,9 +15,9 @@ public class Redirect implements PathHandler {
     }
 
     @Override
-    public Response getResponse(Request request) throws IOException {
+    public Response getResponse(Request request) {
         var response = new Response(StatusCode.REDIRECTED);
-        response.addHeader("Location", "http://0.0.0.0:5000/simple_get");
+        response.addHeader("Location", "http://127.0.0.1:5000/simple_get");
         return response;
 
     }

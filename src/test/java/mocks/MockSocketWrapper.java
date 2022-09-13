@@ -40,9 +40,6 @@ public class MockSocketWrapper implements SocketInterfaces {
         return getNumberOfCallsToAcceptClient;
     }
 
-    public int getCallToCreateServerSocket() {
-        return getCallToCreateServerSocket;
-    }
 
     public int getNumberOfCallsToCloseClientConnection() {
         return getNumberOfCallsToCloseClientConnection;

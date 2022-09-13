@@ -11,6 +11,6 @@ public interface PathHandler {
 
     List<HTTPMethod> accessVerb();
 
-    Response getResponse(Request request) throws IOException;
+    Response getResponse(Request request);
 
 }

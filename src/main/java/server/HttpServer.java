@@ -32,7 +32,6 @@ public class HttpServer {
     static void run(InputOutputInterfaces inputOutputWrappers, SocketInterfaces socketWrappers, ServerLog serverLog) throws IOException {
         var clientSocket = socketWrappers.acceptClient();
         inputOutputWrappers.setClientSocket(clientSocket);
-
         serverLog.logAcceptClient();
 
         inputOutputWrappers.createInputStream(clientSocket);
@@ -44,7 +43,7 @@ public class HttpServer {
         rawRequest = inputOutputWrappers.receivedMessage();
         serverLog.logMessage(rawRequest);
 
-        request = new Request(rawRequest);
+        request = new Request(rawRequest, inputOutputWrappers);
         request.parse();
 
         var rawResponse = new Router().generateResponse(request);
@@ -56,6 +55,7 @@ public class HttpServer {
 
 
         inputOutputWrappers.closeInputOutputStreams();
+        serverLog.logCloseConnection();
         socketWrappers.closeClientConnection(clientSocket);
     }
 

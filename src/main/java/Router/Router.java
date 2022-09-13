@@ -7,12 +7,11 @@ import constants.StatusCode;
 import request.Request;
 import response.Response;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 public class Router {
-    public Response generateResponse(Request request) throws IOException {
+    public Response generateResponse(Request request) {
         HashMap<Path, PathHandler> routeAccessor = retrieveRoutes();
         PathHandler route = routeAccessor.get(request.path);
 

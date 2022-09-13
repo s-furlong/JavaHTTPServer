@@ -6,7 +6,7 @@ public enum StatusCode {
     NOT_FOUND("404 Not Found"),
     NOT_ALLOWED("405 Not Allowed");
 
-    private String code;
+    private final String code;
 
     StatusCode(String code) {
         this.code = code;

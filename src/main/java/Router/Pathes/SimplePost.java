@@ -6,9 +6,7 @@ import constants.StatusCode;
 import request.Request;
 import response.Response;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class SimplePost implements PathHandler {
     @Override
@@ -17,7 +15,7 @@ public class SimplePost implements PathHandler {
     }
 
     @Override
-    public Response getResponse(Request request) throws IOException {
+    public Response getResponse(Request request) {
         String body = request.body;
 
         Response response = new Response(StatusCode.OK, body);

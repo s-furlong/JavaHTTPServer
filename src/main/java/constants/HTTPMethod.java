@@ -9,7 +9,7 @@ public enum HTTPMethod {
     POST("POST"),
     PUT("PUT");
 
-    private String verb;
+    private final String verb;
 
     HTTPMethod(String verb) {
         this.verb = verb;

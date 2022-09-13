@@ -1,23 +1,28 @@
 package request;
 
 
+import Interfaces.InputOutputInterfaces;
 import constants.Format;
 import constants.HTTPMethod;
 import constants.Path;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class Request {
     public String rawRequest;
+    public final InputOutputInterfaces inputMethods;
     public HTTPMethod verb;
     public Path path;
     public String version;
     public HashMap<String, String> headers;
     public String body;
+    private int contentLength;
 
 
-    public Request(String rawRequest) {
+    public Request(String rawRequest, InputOutputInterfaces inputMethods) {
         this.rawRequest = rawRequest;
+        this.inputMethods = inputMethods;
     }
 
     public void parse() {
@@ -25,7 +30,13 @@ public class Request {
         this.path = getPath();
         this.version = getVersion();
         this.headers = formatHeaders();
-        this.body = getBody();
+        try {
+            this.body = getBody();
+        } catch (IOException e) {
+            this.body = "";
+        }
+
+
     }
 
     public String extractComponents() {
@@ -65,17 +76,17 @@ public class Request {
                     value = pairedHeaders[1];
                     headers.put(key, value);
                 }
+                if (key.equals("Content-Length")) {
+                    this.contentLength = Integer.parseInt(value);
+                }
             }
         }
         return headers;
     }
 
-    public String getBody() {
-        var requestComponents = extractComponents().split(Format.BLANKLINE);
-        if (requestComponents.length > 1) {
-            return requestComponents[1];
-        } else {
-            return null;
-        }
+    public String getBody() throws IOException {
+        return this.inputMethods.readBody(this.contentLength);
     }
+
+
 }

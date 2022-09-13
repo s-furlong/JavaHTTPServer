@@ -59,6 +59,15 @@ class HttpServerTests {
         assertEquals(s, mockInputOutputWrapper.setReceivedMessage(s));
     }
 
+    @Test
+    public void testRunReadBody() throws IOException {
+
+        HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
+        mockInputOutputWrapper.setReceivedMessage("Hello World");
+
+        assertEquals("Hello World", mockInputOutputWrapper.readBody(11));
+    }
+
 
     @Test
     public void testRunCallsCloseConnection() throws IOException {

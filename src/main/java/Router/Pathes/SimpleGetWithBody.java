@@ -6,7 +6,6 @@ import constants.StatusCode;
 import request.Request;
 import response.Response;
 
-import java.io.IOException;
 import java.util.List;
 
 public class SimpleGetWithBody implements PathHandler {
@@ -16,7 +15,7 @@ public class SimpleGetWithBody implements PathHandler {
     }
 
     @Override
-    public Response getResponse(Request request) throws IOException {
+    public Response getResponse(Request request) {
         HTTPMethod verb = request.verb;
         String body = "Hello world";
 

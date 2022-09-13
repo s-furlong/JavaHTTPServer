@@ -1,8 +1,6 @@
 package Interfaces;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.Socket;
 
 public interface InputOutputInterfaces {
@@ -13,8 +11,10 @@ public interface InputOutputInterfaces {
 
     String receivedMessage() throws IOException;
 
+    String readBody(int contentLength) throws IOException;
 
-    String httpResponse(String request) throws IOException;
+
+    void httpResponse(String request) throws IOException;
 
     void closeInputOutputStreams() throws IOException;
 

@@ -8,19 +8,18 @@ import java.net.Socket;
 
 public class SocketWrappers implements SocketInterfaces {
     private ServerSocket serverSocket;
-    private InputOutputWrappers socketMethods;
+
+    public SocketWrappers() {
+    }
 
     @Override
     public void createNewServerSocket(int clientPort) throws IOException {
         serverSocket = new ServerSocket(clientPort);
-        InputOutputWrappers socketMethods;
     }
 
     @Override
     public Socket acceptClient() throws IOException {
-        var socket = serverSocket.accept();
-//        socket.setSoTimeout(500);
-        return socket;
+        return serverSocket.accept();
     }
 
 
