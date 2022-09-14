@@ -6,12 +6,11 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class MockInputOutWrapper implements InputOutputInterfaces {
+    private final ArrayList<String> receivedMessages = new ArrayList<>();
+    private final ArrayList<String> echoedMessages = new ArrayList<>();
     private int getNumberOfCallsToCreateInputStream = 0;
     private int getNumberOfCallsToCreateOutStream = 0;
     private int getNumberOfCallsReceiveMessages = 0;
-
-    private final ArrayList<String> receivedMessages = new ArrayList<>();
-    private final ArrayList<String> echoedMessages = new ArrayList<>();
     private int getNumberOfCallsToCloseConnection = 0;
     private Socket clientSocket;
 
@@ -57,12 +56,6 @@ public class MockInputOutWrapper implements InputOutputInterfaces {
         getNumberOfCallsToCloseConnection++;
 
     }
-
-    @Override
-    public void setClientSocket(Socket clientSocket) {
-
-    }
-
 
     public String setReceivedMessage(String s) {
         receivedMessages.add(s);

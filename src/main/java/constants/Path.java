@@ -15,11 +15,6 @@ public enum Path {
         this.path = path;
     }
 
-    @Override
-    public String toString() {
-        return path;
-    }
-
     public static Path findPath(String stringPath) {
         for (Path link : values()) {
             if (link.path.equals(stringPath)) {
@@ -27,5 +22,10 @@ public enum Path {
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return path;
     }
 }

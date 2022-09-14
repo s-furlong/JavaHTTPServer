@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class RequestClassTests {
     String simpleRawRequest = "GET /simple_get HTTP/1.1\r\n\r\n";

@@ -1,24 +1,21 @@
 package server;
 
-import com.sun.jdi.connect.Connector;
 import constants.HTTPMethod;
 import constants.StatusCode;
 import org.junit.jupiter.api.Test;
 import response.Response;
 
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ResponseClassTest {
     private final Map<String, String> headers = Map.of("Content-Length", "5");
-    private List<HTTPMethod> verbs = List.of(HTTPMethod.HEAD, HTTPMethod.OPTIONS);
-    private String body = "hello";
-    private String noBody = "";
+    private final List<HTTPMethod> verbs = List.of(HTTPMethod.HEAD, HTTPMethod.OPTIONS);
+    private final String body = "hello";
+    private final String noBody = "";
 
     @Test
     public void TestOKResponse() {

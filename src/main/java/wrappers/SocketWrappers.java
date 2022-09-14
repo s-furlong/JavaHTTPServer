@@ -9,9 +9,6 @@ import java.net.Socket;
 public class SocketWrappers implements SocketInterfaces {
     private ServerSocket serverSocket;
 
-    public SocketWrappers() {
-    }
-
     @Override
     public void createNewServerSocket(int clientPort) throws IOException {
         serverSocket = new ServerSocket(clientPort);

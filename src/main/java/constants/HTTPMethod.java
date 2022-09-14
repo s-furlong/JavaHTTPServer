@@ -15,11 +15,6 @@ public enum HTTPMethod {
         this.verb = verb;
     }
 
-    @Override
-    public String toString() {
-        return verb;
-    }
-
     public static HTTPMethod findVerb(String stringMethod) {
         for (HTTPMethod method : values()) {
             if (method.verb.equals(stringMethod)) {
@@ -27,5 +22,10 @@ public enum HTTPMethod {
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return verb;
     }
 }

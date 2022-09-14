@@ -1,16 +1,13 @@
 package server;
 
-import Interfaces.InputOutputInterfaces;
 import Router.Pathes.SimpleGet;
 import Router.Router;
 import constants.Path;
 import constants.StatusCode;
 import mocks.MockInputOutWrapper;
-import mocks.MockSocketWrapper;
 import org.junit.jupiter.api.Test;
 import request.Request;
 import response.Response;
-import wrappers.InputOutputWrappers;
 
 import java.io.IOException;
 

@@ -3,7 +3,10 @@ package wrappers;
 import Interfaces.InputOutputInterfaces;
 import constants.Format;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 
@@ -39,7 +42,6 @@ public class InputOutputWrappers implements InputOutputInterfaces {
             }
         }
         return request.toString();
-
     }
 
     public String readBody(int contentLength) throws IOException {
@@ -47,7 +49,6 @@ public class InputOutputWrappers implements InputOutputInterfaces {
         input.read(charBody, 0, contentLength);
         return new String(charBody, 0, contentLength);
     }
-
 
     public void httpResponse(String stringResponse) {
         output.write(stringResponse);

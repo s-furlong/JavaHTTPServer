@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class Request {
-    public String rawRequest;
     public final InputOutputInterfaces inputMethods;
+    public String rawRequest;
     public HTTPMethod verb;
     public Path path;
     public String version;

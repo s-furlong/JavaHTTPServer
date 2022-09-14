@@ -14,8 +14,8 @@ import static server.ServerLog.completeServerLog;
 
 
 class HttpServerTests {
-    MockInputOutWrapper mockInputOutputWrapper = new MockInputOutWrapper();
     public Socket clientSocket;
+    MockInputOutWrapper mockInputOutputWrapper = new MockInputOutWrapper();
     MockSocketWrapper mockSocketWrapper = new MockSocketWrapper(clientSocket);
     ServerLog mockLog = new ServerLog(completeServerLog);
 

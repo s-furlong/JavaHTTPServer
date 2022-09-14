@@ -31,7 +31,6 @@ public class HttpServer {
 
     static void run(InputOutputInterfaces inputOutputWrappers, SocketInterfaces socketWrappers, ServerLog serverLog) throws IOException {
         var clientSocket = socketWrappers.acceptClient();
-        inputOutputWrappers.setClientSocket(clientSocket);
         serverLog.logAcceptClient();
 
         inputOutputWrappers.createInputStream(clientSocket);
