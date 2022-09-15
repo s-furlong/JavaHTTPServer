@@ -1,19 +1,20 @@
 package wrappers;
 
 import Interfaces.InputOutputInterfaces;
+import constants.Format;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
+
 
 public class InputOutputWrappers implements InputOutputInterfaces {
-
+    public Socket clientSocket;
     public BufferedReader input;
     public PrintWriter output;
-    public Socket clientSocket;
+
 
     public InputOutputWrappers() {
         this.input = null;
@@ -32,24 +33,35 @@ public class InputOutputWrappers implements InputOutputInterfaces {
 
     @Override
     public String receivedMessage() throws IOException {
-        return input.readLine();
+        StringBuilder request = new StringBuilder();
+        String line;
+        while ((line = input.readLine()) != null) {
+            request.append(line).append(Format.NEWLINE);
+            if (line.equals("")) {
+                break;
+            }
+        }
+        return request.toString();
     }
 
-    public String httpResponse(String s) throws IOException {
-        String response = "HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Length: 0\r\n\r\n";
-        output.write(response);
+    public String readBody(int contentLength) throws IOException {
+        char[] charBody = new char[contentLength];
+        input.read(charBody, 0, contentLength);
+        return new String(charBody, 0, contentLength);
+    }
+
+    public void httpResponse(String stringResponse) {
+        output.write(stringResponse);
         output.flush();
-        return response;
-    }
-
-    @Override
-    public void echoedMessage(String s) {
-        output.println(s);
     }
 
     @Override
     public void closeInputOutputStreams() throws IOException {
         input.close();
         output.close();
+    }
+
+    public void setClientSocket(Socket clientSocket) {
+        this.clientSocket = clientSocket;
     }
 }

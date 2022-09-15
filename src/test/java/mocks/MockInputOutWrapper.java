@@ -2,17 +2,17 @@ package mocks;
 
 import Interfaces.InputOutputInterfaces;
 
-import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class MockInputOutWrapper implements InputOutputInterfaces {
+    private final ArrayList<String> receivedMessages = new ArrayList<>();
+    private final ArrayList<String> echoedMessages = new ArrayList<>();
     private int getNumberOfCallsToCreateInputStream = 0;
     private int getNumberOfCallsToCreateOutStream = 0;
     private int getNumberOfCallsReceiveMessages = 0;
-    private final ArrayList<String> receivedMessages = new ArrayList<>();
-    private final ArrayList<String> echoedMessages = new ArrayList<>();
     private int getNumberOfCallsToCloseConnection = 0;
+    private Socket clientSocket;
 
 
     @Override
@@ -27,18 +27,28 @@ public class MockInputOutWrapper implements InputOutputInterfaces {
 
     @Override
     public String receivedMessage() {
-        var message = receivedMessages.remove(0);
-        return message;
+        if (receivedMessages.size() > 0) {
+            return receivedMessages.remove(0);
+        } else {
+            return "";
+        }
     }
 
     @Override
-    public void echoedMessage(String s) {
-        echoedMessages.add(s);
+    public String readBody(int contentLength) {
+        if (receivedMessages.size() > 0) {
+            var s = receivedMessages.get(0);
+            return s.substring(0, contentLength);
+        } else {
+            return "";
+        }
+
     }
 
+
     @Override
-    public String httpResponse(String s) throws IOException {
-        return null;
+    public void httpResponse(String request) {
+
     }
 
     @Override
@@ -54,7 +64,6 @@ public class MockInputOutWrapper implements InputOutputInterfaces {
     }
 
     public int getNumberOfCallsToCreateInputStream() {
-
         return getNumberOfCallsToCreateInputStream;
     }
 
@@ -63,16 +72,9 @@ public class MockInputOutWrapper implements InputOutputInterfaces {
         return getNumberOfCallsToCreateOutStream;
     }
 
-    public int getNumberOfCallsReceiveMessages() {
-
-        return getNumberOfCallsReceiveMessages;
-    }
-
-    public ArrayList<String> getEchoedMessages() {
-        return echoedMessages;
-    }
 
     public int getNumberOfCallsToCloseConnection() {
         return getNumberOfCallsToCloseConnection;
     }
+
 }

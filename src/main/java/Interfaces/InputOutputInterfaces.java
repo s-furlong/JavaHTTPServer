@@ -10,9 +10,9 @@ public interface InputOutputInterfaces {
 
     String receivedMessage() throws IOException;
 
-    void echoedMessage(String s) throws IOException;
+    String readBody(int contentLength) throws IOException;
 
-    String httpResponse(String s) throws IOException;
+    void httpResponse(String request) throws IOException;
 
     void closeInputOutputStreams() throws IOException;
 

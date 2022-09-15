@@ -26,19 +26,13 @@ public class ServerLog {
     }
 
     public void logMessage(String message) {
-        System.err.println("SERVER: " + message);
+        System.err.println("REQUEST: " + message);
         addToLog(message);
     }
 
     public void logResponse(String response) {
-        System.err.println("SERVER: " + response);
+        System.err.println("RESPONSE: " + response);
         addToLog(response);
-    }
-
-    public void logMessageFromClient() {
-        String clientMessage = "CLIENT SENT MESSAGE";
-        System.err.println(clientMessage);
-        addToLog(clientMessage);
     }
 
     public void logCloseConnection() {

@@ -7,23 +7,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.Socket;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static server.ServerLog.completeServerLog;
 
 
-class EchoServerTests {
+class HttpServerTests {
+    public Socket clientSocket;
     MockInputOutWrapper mockInputOutputWrapper = new MockInputOutWrapper();
-    MockSocketWrapper mockSocketWrapper = new MockSocketWrapper();
+    MockSocketWrapper mockSocketWrapper = new MockSocketWrapper(clientSocket);
     ServerLog mockLog = new ServerLog(completeServerLog);
 
     @BeforeEach
     void init() {
 
-        mockInputOutputWrapper.setReceivedMessage("hello");
-        mockInputOutputWrapper.setReceivedMessage("off");
+        mockInputOutputWrapper.setReceivedMessage("GET /simple_get HTTP/1.1\r\n\r\n");
 
     }
 
@@ -55,27 +54,20 @@ class EchoServerTests {
     public void testRunReceivesMessages() throws IOException {
 
         HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
-        String s = "hello";
+        String s = "GET /simple_get_with_body HTTP/1.1\r\nContent-Length: 11\r\n\r\nHello world";
 
-        assertEquals("hello", mockInputOutputWrapper.setReceivedMessage(s));
+        assertEquals(s, mockInputOutputWrapper.setReceivedMessage(s));
     }
 
     @Test
-    public void testRunCallsReceivedMessage() throws IOException {
+    public void testRunReadBody() throws IOException {
 
         HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
+        mockInputOutputWrapper.setReceivedMessage("Hello World");
 
-        assertEquals(2, mockInputOutputWrapper.getNumberOfCallsReceiveMessages());
+        assertEquals("Hello World", mockInputOutputWrapper.readBody(11));
     }
 
-    @Test
-    public void testRunCallsEchoMessages() throws IOException {
-
-        HttpServer.run(mockInputOutputWrapper, mockSocketWrapper, mockLog);
-        ArrayList<String> s = new ArrayList<>(List.of("hello"));
-
-        assertEquals(s, mockInputOutputWrapper.getEchoedMessages());
-    }
 
     @Test
     public void testRunCallsCloseConnection() throws IOException {
